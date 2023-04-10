@@ -27,6 +27,8 @@ g++ -std=c++11 client.cpp -o client
 
 */
 
+#define BUFSIZ 1024
+
 int main(int argc, char* argv[]) {
     if (argc != 3) {
         std::cerr << "Usage: " << argv[0] << " <server_ip> <server_port>" << std::endl;
@@ -53,13 +55,13 @@ int main(int argc, char* argv[]) {
     }
 
     int message_count = 0;
-    char buffer[1024];
+    char buffer[BUFSIZ];
     while (true) {
         std::string message = "Message count: " + std::to_string(message_count++);
         send(client_socket, message.c_str(), message.size(), 0);
 
-        memset(buffer, 0, 1024);
-        int bytes_received = recv(client_socket, buffer, 1024, 0);
+        memset(buffer, 0, BUFSIZ);
+        int bytes_received = recv(client_socket, buffer, BUFSIZ, 0);
         if (bytes_received <= 0) {
             std::cerr << "Connection closed by server" << std::endl;
             break;

@@ -26,11 +26,13 @@ g++ -std=c++11 server.cpp -o server -pthread
 
 */
 
+#define BUFSIZ 1024
+
 void handle_client(int client_socket) {
-    char buffer[1024];
+    char buffer[BUFSIZ];
     while (true) {
-        memset(buffer, 0, 1024);
-        int bytes_read = recv(client_socket, buffer, 1024, 0);
+        memset(buffer, 0, BUFSIZ);
+        int bytes_read = recv(client_socket, buffer, BUFSIZ, 0);
         if (bytes_read <= 0) {
             break;
         }
